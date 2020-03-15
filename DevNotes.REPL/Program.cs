@@ -1,4 +1,6 @@
-﻿using CommandLine;
+﻿/// This program runs Devnotes inside an REPL.
+
+using CommandLine;
 using DevNotes.CommandLineParser;
 using DevNotes.Core.DevNotesSQLite;
 using DevNotes.Core.Note;
@@ -11,7 +13,7 @@ using System.Data.SQLite;
 using DevNotesConsole.CommandLineParser;
 using System.Linq;
 
-namespace DevNotes
+namespace DevNotes.REPL
 {
     class Program
     {
@@ -38,7 +40,7 @@ namespace DevNotes
             var sqlConn = OpenDatabase();
             AddTablesIfNeeded(sqlConn);
             projects = new ProjectRepository(new DevNotesSQLiteConnection(sqlConn));
-            Eval(args);
+            ReadEvalPrintLoop();
             sqlConn.Close();
         }
 
@@ -81,7 +83,7 @@ namespace DevNotes
             {
                 AddTable(connection, "Tasks", "(ID INT PRIMARY KEY, TaskName, TaskDescription, ProjectID Text)");
             }
-            
+
         }
 
         static void AddTable(SQLiteConnection conn, string tableName, string columns)
@@ -106,11 +108,30 @@ namespace DevNotes
         }
 
         /// <summary>
+        /// The core Read-Eval-Print-Loop (REPL) functionality
+        /// Read: reads input from user
+        /// Eval: evaluates input from user
+        /// Print: Displays result of evaluation
+        /// Loop: Performs the above three steps until user wishes to quit.
+        /// </summary>
+        static void ReadEvalPrintLoop()
+        {
+            string input;
+            do
+            {
+                Console.Write(CreatePrompt());
+                input = Console.ReadLine();
+                var output = Eval(input);
+                Console.WriteLine(output);
+            } while (input != "q");
+        }
+
+        /// <summary>
         /// Evaluates input given from the user, performs the desired operation on the system, and gives the output of that operation. 
         /// </summary>
         /// <param name="input">The user's unparsed, unevaluated command</param>
         /// <returns>Output of the evaluated command</returns>
-        static string Eval(string[] input)
+        static string Eval(string input)
         {
             var result = Parser.Default.ParseArguments
                         <AddNoteOption, AddProjectOption, AddTaskOption,
@@ -119,7 +140,7 @@ namespace DevNotes
                         RemoveProjectOption,
                         SetProjectOption, SetTaskOption,
                         ErrorOptions>
-                        (input);
+                        (input.Split(' '));
             return result.MapResult(
                 (AddNoteOption opt) => AddNote(opt),
                 (AddProjectOption opt) => AddProject(opt),
@@ -227,3 +248,4 @@ namespace DevNotes
         #endregion // VerbProcessing
     }
 }
+
