@@ -97,7 +97,6 @@
     <Compile Include="CommandLineParser\RemoveProjectOption.cs" />
     <Compile Include="CommandLineParser\SetProjectOption.cs" />
     <Compile Include="CommandLineParser\SetTaskOption.cs" />
-    <Compile Include="IDevNotesResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
