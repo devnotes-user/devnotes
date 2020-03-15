@@ -1,10 +1,9 @@
 ﻿using CommandLine;
 using DevNotes.CommandLineParser;
 using DevNotes.Core.DevNotesSQLite;
-using DevNotes.Note;
+using DevNotes.Core.Note;
 using DevNotes.Core.Project;
 using DevNotes.Core.Task;
-using Repository;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -17,10 +16,6 @@ namespace DevNotes
     class Program
     {
         static IProjectRepository projects;
-
-        static Repository<ITaskEntity> tasks;
-
-        static Repository<INoteEntity> notes;
 
         static string currentProjectID;
 
@@ -43,8 +38,6 @@ namespace DevNotes
             var sqlConn = OpenDatabase();
             AddTablesIfNeeded(sqlConn);
             projects = new ProjectRepository(new DevNotesSQLiteConnection(sqlConn));
-            tasks = new InMemoryRepository<ITaskEntity>(o => o.TaskID);
-            notes = new InMemoryRepository<INoteEntity>(o => o.NoteID);
             ReadEvalPrintLoop();
             sqlConn.Close();
         }
@@ -163,7 +156,6 @@ namespace DevNotes
         {
             var note = new NoteEntity((++noteNum).ToString(), opt.Desc);
             string output;
-            notes.Insert(note);
             output = $"Note: {note.NoteDescription} added";
             return output;
         }
@@ -190,30 +182,26 @@ namespace DevNotes
 
         static string FindTask(FindTaskOption opt)
         {
-            return tasks.Find(new string[] { opt.Name }).Object.TaskName;
+            return "Find tasks not currently implemented";
         }
 
         static string FindNote(FindNoteOption opt)
         {
-            return notes.Find(new string[] { opt.Name }).Object.NoteDescription;
+            return "Find notes not currently implemented";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="opt"></param>
+        /// <returns></returns>
+        /// TODO: Implement add task
         static string AddTask(AddTaskOption opt)
         {
             var task = new TaskEntity(opt.ID, currentProjectID, opt.Name);
             string output;
 
-            if (!tasks.Exists(task))
-            {
-                tasks.Insert(task);
-                output = $"Added task {task.TaskName} to project {currentProjectID}";
-                output += SetTask(new SetTaskOption() { ID = task.TaskID });
-            }
-            else
-            {
-                output = $"Task with ID: {task.TaskID} already exists for project {currentProjectID}";
-            }
-            return output;
+            return "Add task currently not implemented.";
         }
 
         /// <summary>
@@ -235,17 +223,7 @@ namespace DevNotes
         {
             var key = opt.ID;
             string output;
-            // TODO: Change this to filter by tasks in the current project with that particular ID.
-            if (tasks.ExistsByKey(new string[] { key }))
-            {
-                currentTaskID = key;
-                output = $"Set current task to {key}";
-            }
-            else
-            {
-                output = $"Error: Task with id {opt.ID} does not exist in project {currentProjectID}";
-            }
-            return output;
+            return "Set task not implemented";
         }
 
         /// <summary>

@@ -37,6 +37,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DevNotes.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
@@ -61,9 +64,6 @@
     </Reference>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Repository, Version=1.0.7.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Repository.1.0.7.8\lib\net45\Repository.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -98,12 +98,8 @@
     <Compile Include="CommandLineParser\SetProjectOption.cs" />
     <Compile Include="CommandLineParser\SetTaskOption.cs" />
     <Compile Include="IDevNotesResult.cs" />
-    <Compile Include="Note\INoteEntity.cs" />
-    <Compile Include="Note\NoteEntity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Task\ITaskEntity.cs" />
-    <Compile Include="Task\TaskEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
