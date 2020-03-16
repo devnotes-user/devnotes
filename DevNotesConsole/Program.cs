@@ -80,6 +80,12 @@ namespace DevNotes
             
         }
 
+        /// <summary>
+        /// Add table if it doesn't exist
+        /// </summary>
+        /// <param name="conn">The open SQLite connection</param>
+        /// <param name="tableName"></param>
+        /// <param name="columns"></param>
         static void AddTable(SQLiteConnection conn, string tableName, string columns)
         {
             var cmd = conn.CreateCommand();
@@ -155,7 +161,7 @@ namespace DevNotes
         }
 
         /// <summary>
-        /// 
+        /// Adds a task to the current project.
         /// </summary>
         /// <param name="opt"></param>
         /// <returns></returns>
