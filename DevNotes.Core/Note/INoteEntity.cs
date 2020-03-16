@@ -6,10 +6,16 @@
     /// </summary>
     public interface INoteEntity
     {
+        /// <summary>
+        /// 
+        /// </summary>
         string NoteID { get; }
 
         string ProjectID { get; }
 
+        /// <summary>
+        /// ID of owner
+        /// </summary>
         string TaskID { get; }
 
         string NoteDescription { get; }
