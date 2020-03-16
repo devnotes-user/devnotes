@@ -17,10 +17,6 @@ namespace DevNotes
     {
         static IProjectRepository projects;
 
-        static string currentProjectID;
-
-        static string currentTaskID;
-
         static int noteNum = 0;
 
         const string DATABASE_NAME = "database.db";
@@ -92,20 +88,6 @@ namespace DevNotes
         }
 
         /// <summary>
-        /// Displays the DevNotes command prompt and adds current project ID to it.
-        /// </summary>
-        /// <returns></returns>
-        static string CreatePrompt()
-        {
-            var prompt = "Devnotes";
-            if (currentProjectID != null)
-            {
-                prompt += $" {currentProjectID}";
-            }
-            return prompt + "> ";
-        }
-
-        /// <summary>
         /// Evaluates input given from the user, performs the desired operation on the system, and gives the output of that operation. 
         /// </summary>
         /// <param name="input">The user's unparsed, unevaluated command</param>
@@ -117,7 +99,6 @@ namespace DevNotes
                         ListProjectsOption,
                         FindProjectOption, FindTaskOption, FindNoteOption,
                         RemoveProjectOption,
-                        SetProjectOption, SetTaskOption,
                         ErrorOptions>
                         (input);
             return result.MapResult(
@@ -129,8 +110,6 @@ namespace DevNotes
                 (FindTaskOption opt) => FindTask(opt),
                 (FindNoteOption opt) => FindNote(opt),
                 (RemoveProjectOption opt) => RemoveProject(opt),
-                (SetProjectOption opt) => SetProject(opt),
-                (SetTaskOption opt) => SetTask(opt),
                 (ErrorOptions opt) => "error parsing command",
                 errs => "Error parsing command"
             );
@@ -152,7 +131,6 @@ namespace DevNotes
             string output;
             projects.Add(project);
             output = $"Added {project.ProjectName} to projects\n";
-            output += SetProject(new SetProjectOption() { ID = project.ProjectName });
             return output;
         }
 
@@ -181,35 +159,13 @@ namespace DevNotes
         /// </summary>
         /// <param name="opt"></param>
         /// <returns></returns>
-        /// TODO: Implement add task
+        /// TODO: Implement add task/figure out which project is current project
         static string AddTask(AddTaskOption opt)
         {
-            var task = new TaskEntity(opt.Name, currentProjectID, opt.Name);
+            var task = new TaskEntity(opt.Name, "0", opt.Name);
             string output;
 
             return "Add task currently not implemented.";
-        }
-
-        /// <summary>
-        /// Sets current project id.
-        /// TODO: Check if project exists
-        /// </summary>
-        /// <param name="opt"></param>
-        /// <returns></returns>
-        static string SetProject(SetProjectOption opt)
-        {
-            var id = opt.ID;
-            string output;
-            currentProjectID = id;
-            output = $"Setting current project";
-            return output;
-        }
-
-        static string SetTask(SetTaskOption opt)
-        {
-            var key = opt.ID;
-            string output;
-            return "Set task not implemented";
         }
 
         /// <summary>
@@ -220,7 +176,6 @@ namespace DevNotes
         static string RemoveProject(RemoveProjectOption opt)
         {
             projects.RemoveProject(opt.Name);
-            currentProjectID = "";
             return $"Project {opt.Name} has been removed";
         }
 
