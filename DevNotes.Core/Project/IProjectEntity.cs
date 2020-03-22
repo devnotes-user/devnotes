@@ -7,12 +7,7 @@ namespace DevNotes.Core.Project
     /// Models a Project the user is working on.
     /// </summary>
     public interface IProjectEntity
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        string ProjectID { get; }
-
+    { 
         string ProjectName { get; }
 
         /// <summary>

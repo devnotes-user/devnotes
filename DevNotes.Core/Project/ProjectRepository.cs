@@ -1,14 +1,14 @@
 ﻿using DevNotes.Core.DevNotesSQLite;
 using DevNotes.Core.Task;
 using System.Collections.Generic;
+using System;
 
 namespace DevNotes.Core.Project
 {
     /// <summary>
-    /// Keeps track of projects in a SQLite database.
+    /// Keeps track of tasks and notes for a given project.
     /// The database is encapsulated so clients can use the repository without interacting with the DB directly.
     /// </summary>
-    /// TODO: change all direct creations of sqlite commands to use factory
     public class ProjectRepository : IProjectRepository
     {
         private IDevNotesSQLiteConnection sqliteConnection;
@@ -17,106 +17,40 @@ namespace DevNotes.Core.Project
         /// <summary>
         /// Create a new project repository
         /// </summary>
-        public ProjectRepository(IDevNotesSQLiteConnection sqliteConnection)
+        /// <exception cref="ArgumentNullException"/>
+        public ProjectRepository(string projectName, IDevNotesSQLiteConnection sqliteConnection)
         {
+            // Check that connection is a valid object before proceeding.
+            if (sqliteConnection is null)
+            {
+                throw new ArgumentNullException("sqliteConnection");
+            }
+
+            if (projectName is null)
+            {
+                throw new ArgumentNullException("projectName");
+            }
+
+            ProjectName = projectName;
             this.sqliteConnection = sqliteConnection;
             sqliteCommandFactory = new SQLiteCommandFactory(sqliteConnection);
         }
 
-        public IEnumerable<IProjectEntity> Items
+        public string ProjectName { get; }
+
+        public void AddTask(ITaskEntity task)
         {
-            get
-            {
-                var projects = new List<IProjectEntity>();
-                var cmd = sqliteCommandFactory.CreateSQLiteCommand();
-                cmd.CommandText = "select * from Projects";
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    projects.Add(CreateProjectEntityFromRow(reader));
-                }
-                return projects;
-            }
+            throw new NotImplementedException();
         }
 
-        public void Add(IProjectEntity project)
+        public bool FindTaskByName(string taskName)
         {
-            var cmd = sqliteConnection.CreateCommand();
-            cmd.CommandText = $"insert into Projects (ProjectName) values('{project.ProjectName}')";
-            cmd.ExecuteNonQuery();
+            throw new NotImplementedException();
         }
 
-        public bool Exists(IProjectEntity project)
+        public void RemoveTask(ITaskEntity task)
         {
-            var command = sqliteConnection.CreateCommand();
-            command.CommandText = $"select * from Projects where ProjectName='{project.ProjectName}'";
-            var projectReader = command.ExecuteReader();
-            return projectReader.HasRows;
-        }
-
-        public IProjectEntity FindByKey(string projectName)
-        {
-            IProjectEntity result;
-            var command = sqliteConnection.CreateCommand();
-            command.CommandText = $"select * from Projects where ProjectName={projectName}";
-            var projectReader = command.ExecuteReader();
-            if (projectReader.HasRows)
-            {
-                result = CreateProjectEntityFromRow(projectReader);
-            }
-            else
-            {
-                result = null;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Removes a project from the repository.
-        /// TODO: Remove all related tasks and notes from their respective tables.
-        /// </summary>
-        /// <param name="projectName"></param>
-        public void RemoveProject(string projectName)
-        {
-            var cmd = sqliteConnection.CreateCommand();
-            cmd.CommandText = $"delete from Projects where ProjectName='{projectName}'";
-            cmd.ExecuteNonQuery();
-        }
-
-        public void Update(IProjectEntity project)
-        {
-            var cmd = sqliteConnection.CreateCommand();
-            cmd.CommandText = "alter table Projects (ProjectName) where ";
-            cmd.ExecuteNonQuery();
-        }
-
-        private IProjectEntity CreateProjectEntityFromRow(IDevNotesSQLiteDataReader dataReader)
-        {
-            string projectName = dataReader.GetString(1);
-            short taskEntitiesForeignKey = 0;
-            var taskEntities = CreateTaskEntitiesFromFK(taskEntitiesForeignKey);
-            IProjectEntity result = new ProjectEntity(projectName, projectName, taskEntities);
-            return result;
-        }
-
-        private IEnumerable<ITaskEntity> CreateTaskEntitiesFromFK(short foreignKey)
-        {
-            var cmd = sqliteConnection.CreateCommand();
-            var tasks = new List<ITaskEntity>();
-            cmd.CommandText = $"select * from Tasks where ProjectID={foreignKey}";
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                tasks.Add(CreateTaskEntityFromReader(reader));
-            }
-            return new List<ITaskEntity>();
-        }
-
-        private ITaskEntity CreateTaskEntityFromReader(IDevNotesSQLiteDataReader reader)
-        {
-            var taskName = reader.GetString(1);
-            var task = new TaskEntity("", "", taskName);
-            return task;
+            throw new NotImplementedException();
         }
     }
 }

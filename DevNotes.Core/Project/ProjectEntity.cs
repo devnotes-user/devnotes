@@ -15,19 +15,14 @@ namespace DevNotes.Core.Project
         /// <param name="projectID"></param>
         /// <param name="projectName"></param>
         /// <param name="taskEntity"></param>
-        public ProjectEntity(string projectID, string projectName, IEnumerable<ITaskEntity> taskEntity)
+        public ProjectEntity(string projectName, IEnumerable<ITaskEntity> taskEntity)
         {
             ProjectName = projectName;
             Tasks = taskEntity;
         }
 
         /// <summary>
-        /// TODO: Remove, is no longer necessary since ProjectName will be the ID
-        /// </summary>
-        public string ProjectID => ProjectName;
-
-        /// <summary>
-        /// Acts as the ID for a project entity.
+        /// Acts as the ID for a project.
         /// </summary>
         public string ProjectName { get; }
 

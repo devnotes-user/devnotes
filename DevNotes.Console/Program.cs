@@ -33,7 +33,7 @@ namespace DevNotes
         {
             var sqlConn = OpenDatabase();
             AddTablesIfNeeded(sqlConn);
-            projects = new ProjectRepository(new DevNotesSQLiteConnection(sqlConn));
+            projects = new ProjectRepository("ProjectName", new DevNotesSQLiteConnection(sqlConn));
             Eval(args);
             sqlConn.Close();
         }
@@ -101,21 +101,15 @@ namespace DevNotes
         static string Eval(string[] input)
         {
             var result = Parser.Default.ParseArguments
-                        <AddNoteOption, AddProjectOption, AddTaskOption,
-                        ListProjectsOption,
-                        FindProjectOption, FindTaskOption, FindNoteOption,
-                        RemoveProjectOption,
+                        <AddNoteOption, AddTaskOption,
+                        FindTaskOption, FindNoteOption,
                         ErrorOptions>
                         (input);
             return result.MapResult(
                 (AddNoteOption opt) => AddNote(opt),
-                (AddProjectOption opt) => AddProject(opt),
                 (AddTaskOption opt) => AddTask(opt),
-                (ListProjectsOption opt) => ListProjects(opt),
-                (FindProjectOption opt) => FindProject(opt),
                 (FindTaskOption opt) => FindTask(opt),
                 (FindNoteOption opt) => FindNote(opt),
-                (RemoveProjectOption opt) => RemoveProject(opt),
                 (ErrorOptions opt) => "error parsing command",
                 errs => "Error parsing command"
             );
@@ -129,25 +123,6 @@ namespace DevNotes
             string output;
             output = $"Note: {note.NoteDescription} added";
             return output;
-        }
-
-        static string AddProject(AddProjectOption opt)
-        {
-            IProjectEntity project = new ProjectEntity(opt.Name, opt.Name, new List<ITaskEntity>());
-            string output;
-            projects.Add(project);
-            output = $"Added {project.ProjectName} to projects\n";
-            return output;
-        }
-
-        static string ListProjects(ListProjectsOption opt)
-        {
-            return projects.Items.Select(o => o.ProjectName).Aggregate("", (name1, name2) => name1 + Environment.NewLine + name2);
-        }
-
-        static string FindProject(FindProjectOption opt)
-        {
-            return projects.FindByKey(opt.Name).ProjectName;
         }
 
         static string FindTask(FindTaskOption opt)
@@ -172,17 +147,6 @@ namespace DevNotes
             string output;
 
             return "Add task currently not implemented.";
-        }
-
-        /// <summary>
-        /// Removes a project from the list of projects
-        /// </summary>
-        /// <param name="opt">The command line options for this project</param>
-        /// <returns>Message indicating the project has been removed.</returns>
-        static string RemoveProject(RemoveProjectOption opt)
-        {
-            projects.RemoveProject(opt.Name);
-            return $"Project {opt.Name} has been removed";
         }
 
         #endregion // VerbProcessing
