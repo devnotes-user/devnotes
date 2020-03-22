@@ -77,7 +77,7 @@ namespace DevNotes
             {
                 AddTable(connection, "Tasks", "(ID INT PRIMARY KEY, TaskName, TaskDescription, ProjectID Text)");
             }
-            
+
         }
 
         /// <summary>

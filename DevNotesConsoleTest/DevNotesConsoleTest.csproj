@@ -89,12 +89,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DevNotesConsole\DevNotesConsole.csproj">
-      <Project>{1884a27e-9384-41c3-80d2-801b0fbf99c5}</Project>
-      <Name>DevNotesConsole</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="DevNotesCommand\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
