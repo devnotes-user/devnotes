@@ -12,7 +12,6 @@ namespace DevNotes.Core.Project
         /// <summary>
         /// Ctor to inject aggregates
         /// </summary>
-        /// <param name="projectID"></param>
         /// <param name="projectName"></param>
         /// <param name="taskEntity"></param>
         public ProjectEntity(string projectName, IEnumerable<ITaskEntity> taskEntity)
@@ -22,7 +21,7 @@ namespace DevNotes.Core.Project
         }
 
         /// <summary>
-        /// Acts as the ID for a project.
+        /// Acts as the ID for the current project.
         /// </summary>
         public string ProjectName { get; }
 

@@ -13,6 +13,7 @@ namespace DevNotes.Core.Project
     {
         private IDevNotesSQLiteConnection sqliteConnection;
         private ISQLiteCommandFactory sqliteCommandFactory;
+        private IProjectEntity currentProject;
 
         /// <summary>
         /// Create a new project repository
@@ -31,12 +32,15 @@ namespace DevNotes.Core.Project
                 throw new ArgumentNullException("projectName");
             }
 
-            ProjectName = projectName;
             this.sqliteConnection = sqliteConnection;
             sqliteCommandFactory = new SQLiteCommandFactory(sqliteConnection);
+            currentProject = new ProjectEntity(projectName, new List<ITaskEntity>());
         }
 
-        public string ProjectName { get; }
+        /// <summary>
+        /// Retreives the current name of the project.
+        /// </summary>
+        public string ProjectName => currentProject.ProjectName;
 
         public void AddTask(ITaskEntity task)
         {

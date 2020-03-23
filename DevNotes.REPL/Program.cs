@@ -11,12 +11,15 @@ using System.IO;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using DevNotes.Core.Configuration;
 
 namespace DevNotes.REPL
 {
     class Program
     {
         static IProjectRepository project;
+
+        static Configuration configuration;
 
         static string currentTaskID;
 
@@ -34,9 +37,11 @@ namespace DevNotes.REPL
         /// <param name="args">Command line arguments</param>
         static void Main(string[] args)
         {
+            configuration = new ConfigurationFactory().CreateFromXMLFile("./.devnotes/config.xml");
             var sqlConn = OpenDatabase();
             AddTablesIfNeeded(sqlConn);
-            project = new ProjectRepository("ProjectName", new DevNotesSQLiteConnection(sqlConn));
+
+            project = new ProjectRepository(configuration.ProjectName, new DevNotesSQLiteConnection(sqlConn));
             ReadEvalPrintLoop();
             sqlConn.Close();
         }
