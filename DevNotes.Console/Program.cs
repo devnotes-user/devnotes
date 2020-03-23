@@ -10,12 +10,15 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using DevNotesConsole.CommandLineParser;
 using System.Linq;
+using DevNotes.Core.Configuration;
 
 namespace DevNotes
 {
     class Program
     {
         static IProjectRepository project;
+
+        static Configuration configuration;
 
         static int noteNum = 0;
 
@@ -31,9 +34,10 @@ namespace DevNotes
         /// <param name="args">Command line arguments</param>
         static void Main(string[] args)
         {
+            configuration = new ConfigurationFactory().CreateFromXMLFile("./.devnotes/config.xml");
             var sqlConn = OpenDatabase();
             AddTablesIfNeeded(sqlConn);
-            project = new ProjectRepository("ProjectName", new DevNotesSQLiteConnection(sqlConn));
+            project = new ProjectRepository(configuration.ProjectName, new DevNotesSQLiteConnection(sqlConn));
             Eval(args);
             sqlConn.Close();
         }
