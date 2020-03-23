@@ -14,8 +14,6 @@ namespace DevNotes.Core.Note
 
         public string NoteDescription { get; }
 
-        public string ProjectID { get; }
-
         public string TaskID { get; }
 
         public override bool Equals(object obj)

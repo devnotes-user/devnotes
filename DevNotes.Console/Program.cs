@@ -15,15 +15,15 @@ namespace DevNotes
 {
     class Program
     {
-        static IProjectRepository projects;
+        static IProjectRepository project;
 
         static int noteNum = 0;
 
         const string DATABASE_NAME = "database.db";
 
-        const string NEW_SQLITE_ARGUMENTS = "Data Source = database.db;Version=3;New=True;Compress=True";
+        const string NEW_SQLITE_ARGUMENTS = "Data Source = ./.devnotes/database.db;Version=3;New=True;Compress=True";
 
-        const string EXISTING_CONNECTION_ARGUMENTS = "Data Source = database.db;Version=3;New=False;Compress=True";
+        const string EXISTING_CONNECTION_ARGUMENTS = "Data Source = ./.devnotes/database.db;Version=3;New=False;Compress=True";
 
         /// <summary>
         /// Entry point to the DevNotes console program.
@@ -33,7 +33,7 @@ namespace DevNotes
         {
             var sqlConn = OpenDatabase();
             AddTablesIfNeeded(sqlConn);
-            projects = new ProjectRepository("ProjectName", new DevNotesSQLiteConnection(sqlConn));
+            project = new ProjectRepository("ProjectName", new DevNotesSQLiteConnection(sqlConn));
             Eval(args);
             sqlConn.Close();
         }
@@ -58,21 +58,14 @@ namespace DevNotes
         }
 
         /// <summary>
-        /// Adds the Projects, Tasks, and Notes tables if they don't exist.
+        /// Adds the Tasks, and Notes tables if they don't already exist.
         /// </summary>
         /// <param name="connection"></param>
         static void AddTablesIfNeeded(SQLiteConnection connection)
         {
             var cmd = connection.CreateCommand();
-            cmd.CommandText = "select name from sqlite_master where type='table' AND name='Projects'";
-            var reader = cmd.ExecuteReader();
-            if (!reader.HasRows)
-            {
-                AddTable(connection, "Projects", "(ID INT PRIMARY KEY, ProjectName Text)");
-            }
-            reader.Close();
             cmd.CommandText = "select name from sqlite_master where type='table' AND name='Tasks'";
-            reader = cmd.ExecuteReader();
+            var reader = cmd.ExecuteReader();
             if (!reader.HasRows)
             {
                 AddTable(connection, "Tasks", "(ID INT PRIMARY KEY, TaskName, TaskDescription, ProjectID Text)");

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DevNotes.Console": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\absna\\Documents\\devnotes\\DevNotes.SampleProject"
+    }
+  }
+}

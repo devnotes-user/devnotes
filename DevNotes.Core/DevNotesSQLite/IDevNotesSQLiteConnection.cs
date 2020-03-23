@@ -7,12 +7,14 @@ namespace DevNotes.Core.DevNotesSQLite
     /// </summary>
     public interface IDevNotesSQLiteConnection
     {
-        SQLiteConnection Connection { get; }
-
         void Open();
 
         void Close();
 
         IDevNotesSQLiteCommand CreateCommand();
+
+        void CreateFile(string databaseFileName);
+
+        SQLiteErrorCode ResultCode();
     }
 }

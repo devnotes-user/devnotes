@@ -12,21 +12,39 @@ namespace DevNotes.Core.DevNotesSQLite
     /// </summary>
     public class DevNotesSQLiteConnection : IDevNotesSQLiteConnection
     {
+        /// <summary>
+        /// The underlying <see cref="SQLiteConnection"/>
+        /// </summary>
+        private SQLiteConnection connection;
+
+        /// <summary>
+        /// Creates the underlying <see cref="SQLiteConnection"/> with the given connection string.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public DevNotesSQLiteConnection(string connectionString)
+        {
+            connection = new SQLiteConnection(connectionString);
+        }
+
         public DevNotesSQLiteConnection(SQLiteConnection connection)
         {
-            Connection = connection;
+            this.connection = connection;
         }
 
-        public SQLiteConnection Connection { get; }
-
+        /// <summary>
+        /// Closes the underlying <see cref="SQLiteConnection"/>
+        /// </summary>
         public void Close()
         {
-            Connection.Close();
+            connection.Close();
         }
 
+        /// <summary>
+        /// Opens the underlying <see cref="SQLiteConnection"/>
+        /// </summary>
         public void Open()
         {
-            Connection.Open();
+            connection.Open();
         }
 
         /// <summary>
@@ -35,7 +53,21 @@ namespace DevNotes.Core.DevNotesSQLite
         /// <returns>A new SQLite command</returns>
         public IDevNotesSQLiteCommand CreateCommand()
         {
-            return new DevNotesSQLiteCommand(Connection.CreateCommand());
+            return new DevNotesSQLiteCommand(connection.CreateCommand());
+        }
+
+        /// <summary>
+        /// Creates a new database file using the <see cref="SQLiteConnection.CreateFile(string)"/> method.
+        /// </summary>
+        /// <param name="databaseFileName"></param>
+        public void CreateFile(string databaseFileName)
+        {
+            SQLiteConnection.CreateFile(databaseFileName);
+        }
+
+        public SQLiteErrorCode ResultCode()
+        {
+            return connection.ResultCode();
         }
     }
 }

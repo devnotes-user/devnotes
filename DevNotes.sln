@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevNotes.REPL", "DevNotes.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevNotes.SampleProject", "DevNotes.SampleProject\DevNotes.SampleProject.csproj", "{7792C429-3B08-477A-9F9E-298C1C201147}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevNotes.Core.Test", "DevNotes.Core.Test\DevNotes.Core.Test.csproj", "{06D954E6-C4B7-469F-BB13-81907670A7CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7792C429-3B08-477A-9F9E-298C1C201147}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7792C429-3B08-477A-9F9E-298C1C201147}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7792C429-3B08-477A-9F9E-298C1C201147}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06D954E6-C4B7-469F-BB13-81907670A7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06D954E6-C4B7-469F-BB13-81907670A7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06D954E6-C4B7-469F-BB13-81907670A7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06D954E6-C4B7-469F-BB13-81907670A7CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

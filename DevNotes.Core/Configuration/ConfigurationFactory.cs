@@ -10,7 +10,7 @@ namespace DevNotes.Core.Configuration
     {
         public ConfigurationFactory()
         {
-
+           
         }
 
         public Configuration CreateFromXMLFile(string fileName)

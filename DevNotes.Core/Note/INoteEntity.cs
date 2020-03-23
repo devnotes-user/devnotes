@@ -11,8 +11,6 @@
         /// </summary>
         string NoteID { get; }
 
-        string ProjectID { get; }
-
         /// <summary>
         /// ID of owner
         /// </summary>
