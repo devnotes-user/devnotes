@@ -69,5 +69,10 @@ namespace DevNotes.Core.DevNotesSQLite
         {
             return connection.ResultCode();
         }
+
+        public bool InErrorState()
+        {
+            return ResultCode() != SQLiteErrorCode.Ok || ResultCode() != SQLiteErrorCode.Done;
+        }
     }
 }

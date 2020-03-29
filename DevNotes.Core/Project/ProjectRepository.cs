@@ -42,16 +42,29 @@ namespace DevNotes.Core.Project
         /// </summary>
         public string ProjectName => currentProject.ProjectName;
 
+        /// <summary>
+        /// Adds a new task to the project database.
+        /// </summary>
+        /// <param name="task"></param>
         public void AddTask(ITaskEntity task)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Find a task in the project database.
+        /// </summary>
+        /// <param name="taskName"></param>
+        /// <returns></returns>
         public bool FindTaskByName(string taskName)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Removes a task from the project database.
+        /// </summary>
+        /// <param name="task"></param>
         public void RemoveTask(ITaskEntity task)
         {
             throw new NotImplementedException();

@@ -22,12 +22,16 @@ namespace DevNotes.Core.Test.DevNotersSQLiteTest
         /// Given an invalid SQLiteConnection, an exception is produced.
         /// </summary>
         [TestMethod]
+        [ExpectedException(typeof(Exception))]
         public void TestAnInvalidConnectionThrowsException()
         {
             // Arrange
+            devNotesSQLiteConnection.Setup(o => o.InErrorState()).Returns(true);
             var uut = CreateUnitUnderTest();
 
             // Act
+            uut.CreateSQLiteCommand();
+
             // Assert
             Assert.ThrowsException<Exception>(() => uut.CreateSQLiteCommand());
         }

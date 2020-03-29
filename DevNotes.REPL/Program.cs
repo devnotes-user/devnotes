@@ -176,6 +176,7 @@ namespace DevNotes.REPL
         static string AddTask(AddTaskOption opt)
         {
             var task = new TaskEntity(opt.Name, project.ProjectName, opt.Name);
+            project.AddTask(task);
             string output;
 
             return "Add task currently not implemented.";

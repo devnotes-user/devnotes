@@ -21,10 +21,12 @@ namespace DevNotes.Core.DevNotesSQLite
         /// Creates a new <see cref="IDevNotesSQLiteCommand" if and only if the given <see cref="IDevNotesSQLiteConnection" has a valid connection/>
         /// </summary>
         /// <returns>A new SQLite command tied to a valid SQLiteConnection</returns>
-        /// TODO: Actually validate connection...
-        /// TODO: explicitly define when a connection is valid
         public IDevNotesSQLiteCommand CreateSQLiteCommand()
         {
+            if (conn.InErrorState())
+            {
+                throw new Exception("SQLiteConnection is in error state");
+            }
             return conn.CreateCommand();
         }
     }
